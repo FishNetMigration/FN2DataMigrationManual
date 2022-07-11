@@ -1,0 +1,19 @@
+# Introduction
+
+Fishnet2 (FN2) is custom database software used as a Ontario provincial standard for over two decades. The system applied a common database structure to accommodate a variety of fishery surveys (i.e. gill net, trawl, creel).
+
+## Overview
+The goal of this manual is to document the process used to develop an R-based reproducible workflow for importing, cleaning and migrating archived FishNet2 project data.
+
+## Basic workflow
+1. The R package development structure is used as a framework for organizing the files and workflow.
+2. FN2 archive files store relational data tables in a DBF format in a compressed format (*DATA.ZIP*). These files are unzipped to memory then read in to an R environment.  
+3. Data types are imported as *strings* and are converted to usable data types (i.e. *integers*, *dates*, *double*).  
+4. Error checking and data correction is conducted using a series of predefined and project specific queries.    
+5. Data variables names are standardized across projects.  
+6. At this point the data can be used or distributed as an R data package.
+7. Data can also be exported from the package to other database formats as needed.
+
+## Why use R?
+Generally, a code-based approach (R or other programming languages like Python) are advantageous over other graphic user interface (GUI) approaches that rely on point-and-click actions that are often not documented and are certainly not reproducible. The primary advantage of using R is that it is a commonly used programming language among fisheries biologists. The data package approach provides a uniform structure and additionally means that the data is immediately accessible in the desired format for data analysis and other analytical products (Rmarkdown reports, flexdashboards). It also means that the workflow is in a familiar environment (RStudio) and can leverage existing programming skills for data cleaning. The R package environment also provides the advantage of version control (using git) and deployment (from github).
+

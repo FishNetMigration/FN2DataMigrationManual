@@ -1,0 +1,3 @@
+# Data distribution
+
+This could address a few things like uploading to GLIS, writing files to Access or storing data as an R package.

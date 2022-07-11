@@ -1,0 +1,106 @@
+# Data Import
+## Project Structure
+
+A *FN2* directory should be created within the *data-raw* folder. This provides a package relative directory structure to access the raw data. Each FishNet project should be stored in an individual directory named according to the *PRJ_CD* naming convention. All the import steps and migration of data to the package structure is contained in a script (i.e. `import_data_build_data_package.R`) saved in the *data-raw* directory.
+
+```
++-- data-raw
+|   \-- FN2
+|       +-- IA00_FW4
+|       |   \-- DATA.ZIP
+|       +-- IA01_FW7
+|       |   \-- DATA.ZIP
+|   \-- import_data_build_data_package.R
+```
+
+## Importing Data
+The *DATA.ZIP* file contains the *dbf* files for each of the tables of the relational database structure in the FishNet project structure. `gfsR` package has been developed with several functions designed to unzip each *DATA.ZIP* file in to memory and then import each of the appropriate *FN* tables (ex. *FN121*, *FN125*, ...) as an object in R. Additionally, many of the *import_* functions have pre-processing code that applies common code fixes to the structure that results from the *dbf* file format (ex. all fields stored as character strings). The available import functions and code can be found at the [gfsR](https://github.com/HoldenJe/gfsR) github page.  
+
+Multiple projects can be read in and compiled with a few lines of code.
+
+```
+# Import and clean raw FWIN data
+# Generate project list ----
+fndata_folder <-"data-raw/FN2"
+fndata_zips <- dir(fwin_folder, recursive = T, full.names = T)
+fndata_zips <- grep(fwin_zips, pattern = "DATA.ZIP", value = T)
+
+# Import FN2 files ----
+library(gfsR)
+fndata_raw <- import_index_series(fndata_zips)
+
+# View sample of the data ----
+lapply(fndata_raw, head)
+
+# move all tables to global environment ----
+list2env(fndata_raw, envir = .GlobalEnv)
+```
+
+## data-raw to data  
+At this point, the data can be made available in the R package but generally there will be some data cleaning required (see [data cleaning](data-cleaning.html))^[If not for the data cleaning the `fndata_raw` variable could be used directly in `use_data()` and explains why there appears to be some redundancy here between moving tables from `fndata_raw` to an identical list for export `fndata`.]. However, since the process of moving data from *raw-data* to *data* that is more generically part of the package building process; those general steps will be covered here.   
+
+The general convention that has been adopted is to store the data in an R list with the list given a descriptive name and then each table saved as a list item named with the FN2 table name convention similar to the structure used by `gfsR` when the data is imported.
+
+```
+fndata <- list(
+  FN011 = FN011,
+  FN012 = FN012,
+  FN026 = FN026,
+  FN121 = FN121,
+  FN123 = FN123,
+  FN125 = FN125,
+  FN126 = FN126,
+  FN127 = FN127
+)
+```
+
+Once the main data object is created for export the `usethis::use_data()` command is used to make the object available in the package.
+
+```
+usethis::use_data(fndata, overwrite = TRUE)
+```
+This function will write `fndata` to a new directory in the package as an rda file that is included in the package once compiled.
+
+```
++-- data
+|   +-- fndata.rda
+```
+
+## Data Documentation
+At this point the function provides a reminder that the data needs documentation. The documentation page is build starting with an R script that includes special header information that is used by *devtools* and *roxygen2* to develop the documentation files. The file should be saved in the *R* directory.
+
+```
++-- R
+|   +-- fndata.R
+```
+
+The general *roxygen2* for documentation is:
+
+```
+#' fndata
+#' @description give a description of the data here
+#' @format list containing FN2 data tables
+#' @examples
+#' data(fndata)
+#' lapply(fndata, head)
+
+"fndata"
+```
+
+Once completed, the `devtools::document()` function will created the necessary changes in the package structure. It's likely that the first time this process is conducted it will generate a warning message related to the NAMESPACE file. At least point, it is best to delete the existing NAMESPACE file and re-run the `devtools::document()` command which will generate a new NAMESPACE file. In addition to updating the NAMESPACE file, `document()` generates the help file in the *man* folder.
+
+```
++-- man
+|   +-- fndata.Rd
+```
+
+
+At this point, the package is ready to be built. This can be done in RStudio using the *Install and Restart* button or using `devtools::build()` command. At this point it is a good idea to check the package build by opening a new RStudio environment (not in the existing package environment) and check the package contents.
+
+```
+library(fndata)
+data(fndata)
+lapply(fndata, head)
+```
+
+

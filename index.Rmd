@@ -1,0 +1,21 @@
+--- 
+title: "Fishnet2 Data Migration"
+author: "Jeremy Holden"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  This manual will focus on the code and associated R packages used to migrate data.
+github-repo: rstudio/bookdown-demo
+---
+
+# About
+
+The goal of this project is to document the workflow of migrating FN2 projects from the existing *DATA.ZIP* archive to a modern data product. The manual will outline tools for importing, cleaning and outputting a project or series of projects.
+
+## Usage 
+
+This manual will focus on the code and associated R packages used to migrate data.
+

@@ -1,0 +1,19 @@
+# R package set up
+Building R packages requires that [Rtools](https://cran.r-project.org/bin/windows/Rtools/rtools40.html) be installed.
+
+Additionally, there are several R packages that will be required throughout the workflow.  
+1. [devtools](https://devtools.r-lib.org/)  
+2. [usethis](https://usethis.r-lib.org/)  
+3. [roxygen](https://roxygen2.r-lib.org/)  
+
+
+Data import and analysis packages will be discussed in later sections.
+
+## Basic package initialization
+
+1. From RStudio, select "create new project" -> "New Directory" -> "New R Package". It is recommended that during this process a git repo also be created.  
+2. Edit the DESCRIPTION file. At this point you can do a *build and reload* to check the package structure is working.  
+3. Create a README file (`usethis::use_readme_rmd`). Edit details as required. Render the document to create the README.md file that is used by github to display project details on the repo start up page.  
+4. FishNet2 archive files are stored in a special directory (*data-raw*) that will be ignored in the package build process. This allows the package structure to be self-contained but not included in the distributed package files. The directory structure is created using (`usethis::use_data_raw()`).  
+
+The package structure is now complete. Successive steps will be discussed in the following chapters.

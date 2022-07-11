@@ -1,0 +1,51 @@
+# Data cleaning
+
+This chapter will discuss the error checking functions available in `rprocval` or other tools that might be used on a project by project case. Spatial queries are discussed in a future chapter. Additionally, changes to variable names to meet broader program area standards (i.e. `SITRAN` renamed as `SECCHI`) are included here as part of the data cleaning process as are changes to coded variables (i.e. *SEX* = UNK vs *SEX* = 9).
+
+## Data Cleaning Structure
+
+Scripts used to identify and correct errors that remain in the FN2 *DATA.ZIP* file. By conducting the cleaning in the package build process changes to the raw data (the *DATA.ZIP*) are done in a manner that is documented through the code base. Additionally, by establishing the data cleaning pipeline in a reproducible way is allows collaboration and future changes to be easily incorporated in to the package build structure in a reproducible manner. Data changes (with appropriate versioning) either in data tables, fields or values are easily added or removed in the package build process.
+
+## Identifying Errors
+
+Data errors can be introduced in a number of manners throughout the data collection and data entry process. Some error types are structural (i.e. orphaned child record), systemic (i.e. fork length recorded as total length, units reported in grams rather than kilograms), or transcription or data entry errors. The extent to which these can be identified and corrected varies. This section is not intended to provide a complete data cleaning recipe book, rather to provide some general tools for common error checking (`rprocval`) but more specifically to develop a structure of data cleaning that is consistent with the package structure pipeline and, most importantly, is documented and reproducible.
+
+## Cleaning Scripts Structure
+
+As alluded to in the [data import](data-import.html) chapter, cleaning occurs following the import of the raw FN2 data but before writing the *rda* file to the *data* folder. The proposed work flow is to create separate cleaning files for (at least) each FN table. Each of these scripts should be sourced (i.e. `source("data-raw/clean_FN121.R")`) from `import_data_build_data_package.R`.
+
+    +-- data-raw
+    |   \-- FN2
+    |       +-- IA00_FW4
+    |       |   \-- DATA.ZIP
+    |       +-- IA01_FW7
+    |       |   \-- DATA.ZIP
+    |   \-- import_data_build_data_package.R
+    |   \-- clean_FN121.R
+    |   \-- clean_FN125.R
+
+## Two approaches to changing data
+
+Changes to variable names and coded variables are easily done using many conventional R commands (see: [`dplyr::rename`](https://dplyr.tidyverse.org/reference/rename.html); [`dplyr::case_when`](https://dplyr.tidyverse.org/reference/case_when.html)). These types of changes are easily included within the cleaning script.
+
+Larger or more complex changes often requires several intermediate steps and possibly the creation of intermediate variables. Similarly, test done in `rprocval` often return a complete data frame of data that has failed a test. When such changes are required it is suggest that [`dplyr::rows_update`](https://dplyr.tidyverse.org/reference/rows.html) be used. This approach utilizes key field matching to overwrite a single field in the main table of interest (i.e *FN125*) rather than rather other approaches that require removing data and then rebuilding the table (using `bind_rows` or `rbind`).
+
+Some systemic errors are most efficiently made directly in the code base. Frequently however there will be no easy programatic fix and individual records and values will need to be made. In such instances, it is helpful to create a look up table of data changes. The format of the look up table should include the key fields, the column that requires updating and the value to be updated. This minimal table is preferred over a spreadsheet with all the records and all the fields as it is far more explicit as to what value is changed and is less prone to accidentally inducing more errors through data editing.
+
+| PRJ_CD       | SAM  | EFF | SPC | FISH | Attribute | Value |
+|--------------|------|-----|-----|------|-----------|-------|
+| LOA_IA12_001 | 0011 | 038 | 334 | 001  | FLEN      | 123   |
+| LOA_IA12_001 | 0011 | 038 | 334 | 006  | RWT       | 1254  |
+| LOA_IA12_001 | 0021 | 038 | 131 | 005  | TLEN      | 345   |
+
+: Example look-up table structure
+
+**CAUTION**: editing data in Excel, even using the above approach can lead to unexpected format changes in the data. *SQLite* is a lightweight database platform that connects seamlessly with R. Several open source *SQLite* software packages exist [https://sqlitebrowser.org/] or see [DataChangesDB](https://github.com/HoldenJe/DataChangesDB) for a lightweight custom GUI designed to make FN125 data changes quick and efficient.
+
+With data changes recorded using the suggested structure each variable requires separate `rows_update` queries which adds slightly more code than a single update query of a table with all columns but the explicit nature reduces errors and provides better documentation of the changes that were made. 
+
+## FN121 Errors
+
+-   list some common errors
+-   explain the test and output
+-   methods for fixing the data
