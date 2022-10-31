@@ -40,9 +40,9 @@ Some systemic errors are most efficiently made directly in the code base. Freque
 
 : Example look-up table structure
 
-**CAUTION**: editing data in Excel, even using the above approach can lead to unexpected format changes in the data. *SQLite* is a lightweight database platform that connects seamlessly with R. Several open source *SQLite* software packages exist [https://sqlitebrowser.org/] or see [DataChangesDB](https://github.com/HoldenJe/DataChangesDB) for a lightweight custom GUI designed to make FN125 data changes quick and efficient.
+**CAUTION**: editing data in Excel, even using the above approach can lead to unexpected format changes in the data. *SQLite* is a lightweight database platform that connects seamlessly with R. Several open source *SQLite* software packages exist [<https://sqlitebrowser.org/>] or see [Data Change GUI](Data-Change-GUI.html) for a lightweight custom GUI designed to make FN125 data changes quick and efficient. The source code is available on [DataChangesDB](https://github.com/HoldenJe/DataChangesDB) github page.
 
-With data changes recorded using the suggested structure each variable requires separate `rows_update` queries which adds slightly more code than a single update query of a table with all columns but the explicit nature reduces errors and provides better documentation of the changes that were made. 
+With data changes recorded using the suggested structure each variable requires separate `rows_update` queries which adds slightly more code than a single update query of a table with all columns but the explicit nature reduces errors and provides better documentation of the changes that were made.
 
 ## FN121 Errors
 

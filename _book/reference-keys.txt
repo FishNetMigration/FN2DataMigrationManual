@@ -19,3 +19,5 @@ two-approaches-to-changing-data
 fn121-errors
 data-distribution
 spatial-tests
+data-change-gui
+introduction-1

@@ -1,3 +1,4 @@
 # Spatial tests
 
 This a good section to describe how to do spatial queries to check data with custom shapefiles and kml polygons.
+
