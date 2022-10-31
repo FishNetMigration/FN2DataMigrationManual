@@ -23,7 +23,7 @@
 <meta name="author" content="Jeremy Holden" />
 
 
-<meta name="date" content="2022-07-11" />
+<meta name="date" content="2022-10-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -103,6 +103,10 @@
 </ul></li>
 <li class="chapter" data-level="6" data-path="data-distribution.html"><a href="data-distribution.html"><i class="fa fa-check"></i><b>6</b> Data distribution</a></li>
 <li class="chapter" data-level="7" data-path="spatial-tests.html"><a href="spatial-tests.html"><i class="fa fa-check"></i><b>7</b> Spatial tests</a></li>
+<li class="chapter" data-level="8" data-path="data-change-gui.html"><a href="data-change-gui.html"><i class="fa fa-check"></i><b>8</b> Data Change GUI</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="data-change-gui.html"><a href="data-change-gui.html#introduction-1"><i class="fa fa-check"></i><b>8.1</b> Introduction</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -192,7 +196,7 @@
 </tr>
 </tbody>
 </table>
-<p><strong>CAUTION</strong>: editing data in Excel, even using the above approach can lead to unexpected format changes in the data. <em>SQLite</em> is a lightweight database platform that connects seamlessly with R. Several open source <em>SQLite</em> software packages exist [<a href="https://sqlitebrowser.org/" class="uri">https://sqlitebrowser.org/</a>] or see <a href="https://github.com/HoldenJe/DataChangesDB">DataChangesDB</a> for a lightweight custom GUI designed to make FN125 data changes quick and efficient.</p>
+<p><strong>CAUTION</strong>: editing data in Excel, even using the above approach can lead to unexpected format changes in the data. <em>SQLite</em> is a lightweight database platform that connects seamlessly with R. Several open source <em>SQLite</em> software packages exist [<a href="https://sqlitebrowser.org/" class="uri">https://sqlitebrowser.org/</a>] or see <a href="Data-Change-GUI.html">Data Change GUI</a> for a lightweight custom GUI designed to make FN125 data changes quick and efficient. The source code is available on <a href="https://github.com/HoldenJe/DataChangesDB">DataChangesDB</a> github page.</p>
 <p>With data changes recorded using the suggested structure each variable requires separate <code>rows_update</code> queries which adds slightly more code than a single update query of a table with all columns but the explicit nature reduces errors and provides better documentation of the changes that were made.</p>
 </div>
 <div id="fn121-errors" class="section level2 hasAnchor" number="5.5">
