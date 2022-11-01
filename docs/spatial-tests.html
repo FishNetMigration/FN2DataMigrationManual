@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 Spatial tests | Fishnet2 Data Migration</title>
+  <meta name="description" content="This manual will focus on the code and associated R packages used to migrate data." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 Spatial tests | Fishnet2 Data Migration" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This manual will focus on the code and associated R packages used to migrate data." />
+  <meta name="github-repo" content="https://github.com/FishNetMigration/FN2DataMigrationManual/tree/gh-pages" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Spatial tests | Fishnet2 Data Migration" />
+  
+  <meta name="twitter:description" content="This manual will focus on the code and associated R packages used to migrate data." />
+  
+
+<meta name="author" content="Jeremy Holden" />
+
+
+<meta name="date" content="2022-11-01" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="data-distribution.html"/>
+<link rel="next" href="data-change-gui.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Fishnet Data Migration Manual</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#usage"><i class="fa fa-check"></i><b>1.1</b> Usage</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction.html"><a href="introduction.html#overview"><i class="fa fa-check"></i><b>2.1</b> Overview</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction.html"><a href="introduction.html#basic-workflow"><i class="fa fa-check"></i><b>2.2</b> Basic workflow</a></li>
+<li class="chapter" data-level="2.3" data-path="introduction.html"><a href="introduction.html#why-use-r"><i class="fa fa-check"></i><b>2.3</b> Why use R?</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="r-package-set-up.html"><a href="r-package-set-up.html"><i class="fa fa-check"></i><b>3</b> R package set up</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="r-package-set-up.html"><a href="r-package-set-up.html#basic-package-initialization"><i class="fa fa-check"></i><b>3.1</b> Basic package initialization</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-import.html"><a href="data-import.html"><i class="fa fa-check"></i><b>4</b> Data Import</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data-import.html"><a href="data-import.html#project-structure"><i class="fa fa-check"></i><b>4.1</b> Project Structure</a></li>
+<li class="chapter" data-level="4.2" data-path="data-import.html"><a href="data-import.html#importing-data"><i class="fa fa-check"></i><b>4.2</b> Importing Data</a></li>
+<li class="chapter" data-level="4.3" data-path="data-import.html"><a href="data-import.html#data-raw-to-data"><i class="fa fa-check"></i><b>4.3</b> data-raw to data</a></li>
+<li class="chapter" data-level="4.4" data-path="data-import.html"><a href="data-import.html#data-documentation"><i class="fa fa-check"></i><b>4.4</b> Data Documentation</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="data-cleaning.html"><a href="data-cleaning.html"><i class="fa fa-check"></i><b>5</b> Data cleaning</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="data-cleaning.html"><a href="data-cleaning.html#data-cleaning-structure"><i class="fa fa-check"></i><b>5.1</b> Data Cleaning Structure</a></li>
+<li class="chapter" data-level="5.2" data-path="data-cleaning.html"><a href="data-cleaning.html#identifying-errors"><i class="fa fa-check"></i><b>5.2</b> Identifying Errors</a></li>
+<li class="chapter" data-level="5.3" data-path="data-cleaning.html"><a href="data-cleaning.html#cleaning-scripts-structure"><i class="fa fa-check"></i><b>5.3</b> Cleaning Scripts Structure</a></li>
+<li class="chapter" data-level="5.4" data-path="data-cleaning.html"><a href="data-cleaning.html#two-approaches-to-changing-data"><i class="fa fa-check"></i><b>5.4</b> Two approaches to changing data</a></li>
+<li class="chapter" data-level="5.5" data-path="data-cleaning.html"><a href="data-cleaning.html#fn121-errors"><i class="fa fa-check"></i><b>5.5</b> FN121 Errors</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="data-distribution.html"><a href="data-distribution.html"><i class="fa fa-check"></i><b>6</b> Data distribution</a></li>
+<li class="chapter" data-level="7" data-path="spatial-tests.html"><a href="spatial-tests.html"><i class="fa fa-check"></i><b>7</b> Spatial tests</a></li>
+<li class="chapter" data-level="8" data-path="data-change-gui.html"><a href="data-change-gui.html"><i class="fa fa-check"></i><b>8</b> Data Change GUI</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="data-change-gui.html"><a href="data-change-gui.html#introduction-1"><i class="fa fa-check"></i><b>8.1</b> Introduction</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Fishnet2 Data Migration</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="spatial-tests" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> Spatial tests<a href="spatial-tests.html#spatial-tests" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>This a good section to describe how to do spatial queries to check data with custom shapefiles and kml polygons.</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="data-distribution.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-change-gui.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

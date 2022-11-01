@@ -8,7 +8,7 @@ documentclass: book
 # cover-image: path to the social sharing image like images/cover.jpg
 description: |
   This manual will focus on the code and associated R packages used to migrate data.
-github-repo: https://github.com/FishNetMigration/FN2DataMigrationManual/tree/ghbook
+github-repo: https://github.com/FishNetMigration/FN2DataMigrationManual/tree/gh-pages
 ---
 
 # About

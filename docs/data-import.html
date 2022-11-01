@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Data Import | Fishnet2 Data Migration</title>
+  <meta name="description" content="This manual will focus on the code and associated R packages used to migrate data." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Data Import | Fishnet2 Data Migration" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This manual will focus on the code and associated R packages used to migrate data." />
+  <meta name="github-repo" content="https://github.com/FishNetMigration/FN2DataMigrationManual/tree/gh-pages" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Data Import | Fishnet2 Data Migration" />
+  
+  <meta name="twitter:description" content="This manual will focus on the code and associated R packages used to migrate data." />
+  
+
+<meta name="author" content="Jeremy Holden" />
+
+
+<meta name="date" content="2022-11-01" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="r-package-set-up.html"/>
+<link rel="next" href="data-cleaning.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Fishnet Data Migration Manual</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#usage"><i class="fa fa-check"></i><b>1.1</b> Usage</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction.html"><a href="introduction.html#overview"><i class="fa fa-check"></i><b>2.1</b> Overview</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction.html"><a href="introduction.html#basic-workflow"><i class="fa fa-check"></i><b>2.2</b> Basic workflow</a></li>
+<li class="chapter" data-level="2.3" data-path="introduction.html"><a href="introduction.html#why-use-r"><i class="fa fa-check"></i><b>2.3</b> Why use R?</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="r-package-set-up.html"><a href="r-package-set-up.html"><i class="fa fa-check"></i><b>3</b> R package set up</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="r-package-set-up.html"><a href="r-package-set-up.html#basic-package-initialization"><i class="fa fa-check"></i><b>3.1</b> Basic package initialization</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-import.html"><a href="data-import.html"><i class="fa fa-check"></i><b>4</b> Data Import</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data-import.html"><a href="data-import.html#project-structure"><i class="fa fa-check"></i><b>4.1</b> Project Structure</a></li>
+<li class="chapter" data-level="4.2" data-path="data-import.html"><a href="data-import.html#importing-data"><i class="fa fa-check"></i><b>4.2</b> Importing Data</a></li>
+<li class="chapter" data-level="4.3" data-path="data-import.html"><a href="data-import.html#data-raw-to-data"><i class="fa fa-check"></i><b>4.3</b> data-raw to data</a></li>
+<li class="chapter" data-level="4.4" data-path="data-import.html"><a href="data-import.html#data-documentation"><i class="fa fa-check"></i><b>4.4</b> Data Documentation</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="data-cleaning.html"><a href="data-cleaning.html"><i class="fa fa-check"></i><b>5</b> Data cleaning</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="data-cleaning.html"><a href="data-cleaning.html#data-cleaning-structure"><i class="fa fa-check"></i><b>5.1</b> Data Cleaning Structure</a></li>
+<li class="chapter" data-level="5.2" data-path="data-cleaning.html"><a href="data-cleaning.html#identifying-errors"><i class="fa fa-check"></i><b>5.2</b> Identifying Errors</a></li>
+<li class="chapter" data-level="5.3" data-path="data-cleaning.html"><a href="data-cleaning.html#cleaning-scripts-structure"><i class="fa fa-check"></i><b>5.3</b> Cleaning Scripts Structure</a></li>
+<li class="chapter" data-level="5.4" data-path="data-cleaning.html"><a href="data-cleaning.html#two-approaches-to-changing-data"><i class="fa fa-check"></i><b>5.4</b> Two approaches to changing data</a></li>
+<li class="chapter" data-level="5.5" data-path="data-cleaning.html"><a href="data-cleaning.html#fn121-errors"><i class="fa fa-check"></i><b>5.5</b> FN121 Errors</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="data-distribution.html"><a href="data-distribution.html"><i class="fa fa-check"></i><b>6</b> Data distribution</a></li>
+<li class="chapter" data-level="7" data-path="spatial-tests.html"><a href="spatial-tests.html"><i class="fa fa-check"></i><b>7</b> Spatial tests</a></li>
+<li class="chapter" data-level="8" data-path="data-change-gui.html"><a href="data-change-gui.html"><i class="fa fa-check"></i><b>8</b> Data Change GUI</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="data-change-gui.html"><a href="data-change-gui.html#introduction-1"><i class="fa fa-check"></i><b>8.1</b> Introduction</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Fishnet2 Data Migration</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-import" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Data Import<a href="data-import.html#data-import" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="project-structure" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Project Structure<a href="data-import.html#project-structure" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A <em>FN2</em> directory should be created within the <em>data-raw</em> folder. This provides a package relative directory structure to access the raw data. Each FishNet project should be stored in an individual directory named according to the <em>PRJ_CD</em> naming convention. All the import steps and migration of data to the package structure is contained in a script (i.e. <code>import_data_build_data_package.R</code>) saved in the <em>data-raw</em> directory.</p>
+<pre><code>+-- data-raw
+|   \-- FN2
+|       +-- IA00_FW4
+|       |   \-- DATA.ZIP
+|       +-- IA01_FW7
+|       |   \-- DATA.ZIP
+|   \-- import_data_build_data_package.R</code></pre>
+</div>
+<div id="importing-data" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Importing Data<a href="data-import.html#importing-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <em>DATA.ZIP</em> file contains the <em>dbf</em> files for each of the tables of the relational database structure in the FishNet project structure. <code>gfsR</code> package has been developed with several functions designed to unzip each <em>DATA.ZIP</em> file in to memory and then import each of the appropriate <em>FN</em> tables (ex. <em>FN121</em>, <em>FN125</em>, …) as an object in R. Additionally, many of the <em>import_</em> functions have pre-processing code that applies common code fixes to the structure that results from the <em>dbf</em> file format (ex. all fields stored as character strings). The available import functions and code can be found at the <a href="https://github.com/HoldenJe/gfsR">gfsR</a> github page.</p>
+<p>Multiple projects can be read in and compiled with a few lines of code.</p>
+<pre><code># Import and clean raw FWIN data
+# Generate project list ----
+fndata_folder &lt;-&quot;data-raw/FN2&quot;
+fndata_zips &lt;- dir(fwin_folder, recursive = T, full.names = T)
+fndata_zips &lt;- grep(fwin_zips, pattern = &quot;DATA.ZIP&quot;, value = T)
+
+# Import FN2 files ----
+library(gfsR)
+fndata_raw &lt;- import_index_series(fndata_zips)
+
+# View sample of the data ----
+lapply(fndata_raw, head)
+
+# move all tables to global environment ----
+list2env(fndata_raw, envir = .GlobalEnv)</code></pre>
+</div>
+<div id="data-raw-to-data" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> data-raw to data<a href="data-import.html#data-raw-to-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>At this point, the data can be made available in the R package but generally there will be some data cleaning required (see <a href="data-cleaning.html">data cleaning</a>)<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. However, since the process of moving data from <em>raw-data</em> to <em>data</em> that is more generically part of the package building process; those general steps will be covered here.</p>
+<p>The general convention that has been adopted is to store the data in an R list with the list given a descriptive name and then each table saved as a list item named with the FN2 table name convention similar to the structure used by <code>gfsR</code> when the data is imported.</p>
+<pre><code>fndata &lt;- list(
+  FN011 = FN011,
+  FN012 = FN012,
+  FN026 = FN026,
+  FN121 = FN121,
+  FN123 = FN123,
+  FN125 = FN125,
+  FN126 = FN126,
+  FN127 = FN127
+)</code></pre>
+<p>Once the main data object is created for export the <code>usethis::use_data()</code> command is used to make the object available in the package.</p>
+<pre><code>usethis::use_data(fndata, overwrite = TRUE)</code></pre>
+<p>This function will write <code>fndata</code> to a new directory in the package as an rda file that is included in the package once compiled.</p>
+<pre><code>+-- data
+|   +-- fndata.rda</code></pre>
+</div>
+<div id="data-documentation" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Data Documentation<a href="data-import.html#data-documentation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>At this point the function provides a reminder that the data needs documentation. The documentation page is build starting with an R script that includes special header information that is used by <em>devtools</em> and <em>roxygen2</em> to develop the documentation files. The file should be saved in the <em>R</em> directory.</p>
+<pre><code>+-- R
+|   +-- fndata.R</code></pre>
+<p>The general <em>roxygen2</em> for documentation is:</p>
+<pre><code>#&#39; fndata
+#&#39; @description give a description of the data here
+#&#39; @format list containing FN2 data tables
+#&#39; @examples
+#&#39; data(fndata)
+#&#39; lapply(fndata, head)
+
+&quot;fndata&quot;</code></pre>
+<p>Once completed, the <code>devtools::document()</code> function will created the necessary changes in the package structure. It’s likely that the first time this process is conducted it will generate a warning message related to the NAMESPACE file. At least point, it is best to delete the existing NAMESPACE file and re-run the <code>devtools::document()</code> command which will generate a new NAMESPACE file. In addition to updating the NAMESPACE file, <code>document()</code> generates the help file in the <em>man</em> folder.</p>
+<pre><code>+-- man
+|   +-- fndata.Rd</code></pre>
+<p>At this point, the package is ready to be built. This can be done in RStudio using the <em>Install and Restart</em> button or using <code>devtools::build()</code> command. At this point it is a good idea to check the package build by opening a new RStudio environment (not in the existing package environment) and check the package contents.</p>
+<pre><code>library(fndata)
+data(fndata)
+lapply(fndata, head)</code></pre>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>If not for the data cleaning the <code>fndata_raw</code> variable could be used directly in <code>use_data()</code> and explains why there appears to be some redundancy here between moving tables from <code>fndata_raw</code> to an identical list for export <code>fndata</code>.<a href="data-import.html#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="r-package-set-up.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-cleaning.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
