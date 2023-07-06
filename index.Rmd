@@ -4,11 +4,14 @@ author: "Jeremy Holden"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
-# url: your book url like https://bookdown.org/yihui/bookdown
+url: https://fishnetmigration.github.io/FN2DataMigrationManual/
 # cover-image: path to the social sharing image like images/cover.jpg
 description: |
   This manual will focus on the code and associated R packages used to migrate data.
 github-repo: https://github.com/FishNetMigration/FN2DataMigrationManual/tree/gh-pages
+bibliography: [book.bib]
+biblio-style: apalike
+link-citations: yes
 ---
 
 # About
@@ -19,3 +22,9 @@ The goal of this project is to document the workflow of migrating FN2 projects f
 
 This manual will focus on the code and associated R packages used to migrate data.
 
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'book.bib')
+```
