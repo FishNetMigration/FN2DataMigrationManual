@@ -5,16 +5,19 @@
 \documentclass[
 ]{book}
 \usepackage{amsmath,amssymb}
-\usepackage{lmodern}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-  \usepackage{unicode-math}
+  \usepackage{unicode-math} % this also loads fontspec
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -33,14 +36,6 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  pdftitle={Fishnet2 Data Migration},
-  pdfauthor={Jeremy Holden},
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
@@ -72,10 +67,18 @@
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Fishnet2 Data Migration},
+  pdfauthor={Jeremy Holden},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
 
 \title{Fishnet2 Data Migration}
 \author{Jeremy Holden}
-\date{2022-10-31}
+\date{2023-07-06}
 
 \begin{document}
 \maketitle
@@ -318,18 +321,19 @@ Some systemic errors are most efficiently made directly in the code base. Freque
 
 \begin{longtable}[]{@{}lllllll@{}}
 \caption{Example look-up table structure}\tabularnewline
-\toprule
+\toprule\noalign{}
 PRJ\_CD & SAM & EFF & SPC & FISH & Attribute & Value \\
-\midrule
+\midrule\noalign{}
 \endfirsthead
-\toprule
+\toprule\noalign{}
 PRJ\_CD & SAM & EFF & SPC & FISH & Attribute & Value \\
-\midrule
+\midrule\noalign{}
 \endhead
+\bottomrule\noalign{}
+\endlastfoot
 LOA\_IA12\_001 & 0011 & 038 & 334 & 001 & FLEN & 123 \\
 LOA\_IA12\_001 & 0011 & 038 & 334 & 006 & RWT & 1254 \\
 LOA\_IA12\_001 & 0021 & 038 & 131 & 005 & TLEN & 345 \\
-\bottomrule
 \end{longtable}
 
 \textbf{CAUTION}: editing data in Excel, even using the above approach can lead to unexpected format changes in the data. \emph{SQLite} is a lightweight database platform that connects seamlessly with R. Several open source \emph{SQLite} software packages exist {[}\url{https://sqlitebrowser.org/}{]} or see \href{Data-Change-GUI.html}{Data Change GUI} for a lightweight custom GUI designed to make FN125 data changes quick and efficient. The source code is available on \href{https://github.com/HoldenJe/DataChangesDB}{DataChangesDB} github page.
